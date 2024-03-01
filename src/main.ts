@@ -7,6 +7,8 @@ interface PullRequest {
   number: number;
   labels: string[] | null;
   assignees: string[] | null;
+  base_branch: string;
+  head_branch: string;
 }
 
 async function run(): Promise<void> {
@@ -17,6 +19,7 @@ async function run(): Promise<void> {
       github.context.repo.repo,
       github.context.sha
     );
+
     if (!pull) {
       core.debug('pull request not found');
       return;
@@ -27,6 +30,8 @@ async function run(): Promise<void> {
     core.setOutput('number', pull.number);
     core.setOutput('labels', pull.labels?.join('\n'));
     core.setOutput('assignees', pull.assignees?.join('\n'));
+    core.setOutput('base_branch', pull.base_branch);
+    core.setOutput('head_branch', pull.head_branch);
   } catch (e) {
     core.error(e);
     core.setFailed(e.message);
@@ -60,7 +65,9 @@ async function getMergedPullRequest(
     body: pull.body,
     number: pull.number,
     labels: pull.labels.map(l => l.name),
-    assignees: pull.assignees.map(a => a.login)
+    assignees: pull.assignees.map(a => a.login),
+    base_branch: pull.base.ref,
+    head_branch: pull.head.ref
   };
 }
 

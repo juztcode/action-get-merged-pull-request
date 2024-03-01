@@ -5,6 +5,9 @@ inputs:
   github_token:
     description: A GitHub token.
     required: true
+  commit_sha:
+    description: Targeted commit sha.
+    required: false
 outputs:
   title:
     description: The title of the pull request.
@@ -16,6 +19,10 @@ outputs:
     description: The list of labels for the pull request. Separated with line breaks if there're multiple labels.
   assignees:
     description: The list of assignees for the pull request. Separated with line breaks if there're multiple assignees.
+  base_branch:
+    description: The base branch of pull request
+  head_branch:
+    description: The head branch of pull request
 runs:
   using: node12
   main: dist/index.js
