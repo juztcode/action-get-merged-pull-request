@@ -13,11 +13,13 @@ interface PullRequest {
 
 async function run(): Promise<void> {
   try {
+    const commitSha = core.getInput('commit_sha') || github.context.sha;
+
     const pull = await getMergedPullRequest(
       core.getInput('github_token'),
       github.context.repo.owner,
       github.context.repo.repo,
-      github.context.sha
+      commitSha
     );
 
     if (!pull) {

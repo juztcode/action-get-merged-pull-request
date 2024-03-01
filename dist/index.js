@@ -2186,7 +2186,8 @@ function run() {
     var _a, _b;
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const pull = yield getMergedPullRequest(core.getInput('github_token'), github.context.repo.owner, github.context.repo.repo, github.context.sha);
+            const commitSha = core.getInput('commit_sha') || github.context.sha;
+            const pull = yield getMergedPullRequest(core.getInput('github_token'), github.context.repo.owner, github.context.repo.repo, commitSha);
             if (!pull) {
                 core.debug('pull request not found');
                 return;
